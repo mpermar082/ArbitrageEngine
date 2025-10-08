@@ -3,23 +3,59 @@
  * Core ArbitrageEngine implementation
  */
 
+/**
+ * Configuration options for the ArbitrageEngine.
+ * @interface
+ */
 export interface ArbitrageEngineConfig {
+    /**
+     * Enable verbose logging.
+     */
     verbose?: boolean;
+    /**
+     * Timeout in milliseconds for the engine to complete processing.
+     */
     timeout?: number;
+    /**
+     * Maximum number of retries for the engine.
+     */
     maxRetries?: number;
 }
 
+/**
+ * Result object containing the outcome of a processing operation.
+ * @interface
+ */
 export interface ProcessResult {
+    /**
+     * Success flag indicating whether the operation was successful.
+     */
     success: boolean;
+    /**
+     * Additional data returned from the processing operation.
+     */
     data?: any;
+    /**
+     * Message describing the outcome of the operation.
+     */
     message: string;
+    /**
+     * Timestamp when the operation was completed.
+     */
     timestamp: Date;
 }
 
+/**
+ * The ArbitrageEngine class responsible for executing the core logic.
+ */
 export class ArbitrageEngine {
     private config: ArbitrageEngineConfig;
     private processed: number = 0;
 
+    /**
+     * Creates a new instance of the ArbitrageEngine.
+     * @param config Configuration options for the engine.
+     */
     constructor(config: ArbitrageEngineConfig = {}) {
         this.config = {
             verbose: false,
@@ -29,6 +65,10 @@ export class ArbitrageEngine {
         };
     }
 
+    /**
+     * Executes the core logic of the engine.
+     * @returns The result of the processing operation.
+     */
     async execute(): Promise<ProcessResult> {
         const startTime = Date.now();
         
@@ -63,6 +103,10 @@ export class ArbitrageEngine {
         }
     }
 
+    /**
+     * Executes the core processing logic of the engine.
+     * @returns The result of the processing operation.
+     */
     private async process(): Promise<any> {
         // Implement your core logic here
         await this.delay(100); // Simulate processing
@@ -76,14 +120,12 @@ export class ArbitrageEngine {
         };
     }
 
+    /**
+     * Delays the execution for a specified amount of time.
+     * @param ms Time in milliseconds to delay.
+     * @returns A promise that resolves after the specified delay.
+     */
     private delay(ms: number): Promise<void> {
         return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    getStatistics(): object {
-        return {
-            processed: this.processed,
-            config: this.config
-        };
     }
 }
